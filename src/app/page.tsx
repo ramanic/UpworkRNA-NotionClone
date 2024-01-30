@@ -30,5 +30,5 @@ export default async function Home() {
     }
   }
 
-  return redirect(process.env.NEXT_PUBLIC_AUTH_FRONTEND+`/auth/sign-in`);
+  return redirect(process.env.NEXT_PUBLIC_CHAT_URL+`/auth/sign-in`);
 }

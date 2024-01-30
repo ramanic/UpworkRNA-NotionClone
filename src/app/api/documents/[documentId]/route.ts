@@ -51,8 +51,6 @@ export async function DELETE(req: Request, context: Context) {
     // run 3 function, delete document on mongodb, delete iconImage and coverImage(whether there is or not because it will return {result:"not found"} or {"result": "ok"})
     await Promise.all([
       deleteDocMongDB(),
-      deleteImg(`${CLOUDINARY_ICON_IMAGE_FOLDER}/${documentId}`),
-      deleteImg(`${CLOUDINARY_COVER_IMAGE_FOLDER}/${documentId}`),
     ]);
 
     if (documentId == currentDoc) {

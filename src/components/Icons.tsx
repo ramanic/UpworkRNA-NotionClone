@@ -17,7 +17,7 @@ import {
   DotsHorizontalIcon,
   ImageIcon,
   CameraIcon,
-  UpdateIcon,
+  UpdateIcon, ChatBubbleIcon,
 } from "@radix-ui/react-icons";
 
 export type IconsProps = {
@@ -45,6 +45,7 @@ export const Icons = {
   Image: ImageIcon,
   Camera: CameraIcon,
   Update: UpdateIcon,
+  Chat : ChatBubbleIcon,
   logo: () => (
     <svg
       className="h-8 w-24 fill-black dark:fill-white"

@@ -7,7 +7,7 @@ export async function getUser(token?:string) {
         return null;
     }
     try{
-    const user= await axios.get(process.env.NEXT_PUBLIC_AUTH_FRONTEND!+'/api/profile',{
+    const user= await axios.get(process.env.NEXT_PUBLIC_CHAT_URL+'/api/profile',{
         params:{
             token:token
         },
