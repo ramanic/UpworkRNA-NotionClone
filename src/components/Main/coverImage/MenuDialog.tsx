@@ -33,6 +33,9 @@ const MenuDialog: React.FC<MoreDialogProps> = ({
   toggle,
   isOpen,
 }) => {
+    const uploadImage = async () => {
+
+    }
   return (
     <Dialog open={isOpen} onOpenChange={toggle}>
       <DialogTrigger asChild>
@@ -49,64 +52,43 @@ const MenuDialog: React.FC<MoreDialogProps> = ({
           <span className="select-none">Change Cover</span>
         </Button>
       </DialogTrigger>
-      <DialogContentMore className="block md:hidden md:!pointer-events-none z-10">
-        <DialogHeader className="h-[48px] relative border-b border-border">
-          <DialogTitle className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-            Image Actions
-          </DialogTitle>
-          <button
-            onClick={() => toggle()}
-            type="button"
-            disabled={isLoading}
-            className="absolute right-5 top-[50%] translate-y-[-50%] !m-0 text-blue-400 font-semibold cursor-pointer"
-          >
-            Done
-          </button>
-        </DialogHeader>
-        <CldUploadWidget
-          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-          options={{
-            maxFiles: 1,
-            resourceType: "image",
-            folder: CLOUDINARY_COVER_IMAGE_FOLDER,
-            publicId: id,
-            cropping: true,
-            croppingAspectRatio: 3,
-            showSkipCropButton: false,
-            croppingShowDimensions: true,
-            croppingCoordinatesMode: "custom",
-          }}
-          onSuccess={onSuccess}
-          signatureEndpoint={"/api/sign-cloudinary-params"}
-        >
-          {({ open }) => {
-            return (
-              <button
+        <DialogContentMore className="block md:hidden md:!pointer-events-none z-10">
+            <DialogHeader className="h-[48px] relative border-b border-border">
+                <DialogTitle className="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+                    Image Actions
+                </DialogTitle>
+                <button
+                    onClick={() => toggle()}
+                    type="button"
+                    disabled={isLoading}
+                    className="absolute right-5 top-[50%] translate-y-[-50%] !m-0 text-blue-400 font-semibold cursor-pointer"
+                >
+                    Done
+                </button>
+            </DialogHeader>
+            <button
                 onClick={() => {
-                  open?.();
-                  toggle();
+                    uploadImage();
+                    toggle();
                 }}
                 className="flex hover:bg-accent w-full items-center px-3 py-2 cursor-pointer rounded-sm"
                 type="button"
-              >
-                <Icons.Update className="h-8 w-8 p-1 shrink-0" />
+            >
+                <Icons.Update className="h-8 w-8 p-1 shrink-0"/>
                 <span className="pl-3 text-base w-max">Change</span>
-              </button>
-            );
-          }}
-        </CldUploadWidget>
-        <button
-          className="flex hover:bg-accent w-full items-center px-3 py-2 cursor-pointer rounded-sm"
-          type="button"
-          onClick={() => {
-            onDelete();
-            toggle();
-          }}
-        >
-          <Icons.Delete className="h-8 w-8 p-1 shrink-0" />
-          <span className="pl-3 text-base w-max">Remove</span>
-        </button>
-      </DialogContentMore>
+            </button>
+            <button
+                className="flex hover:bg-accent w-full items-center px-3 py-2 cursor-pointer rounded-sm"
+                type="button"
+                onClick={() => {
+                    onDelete();
+                    toggle();
+                }}
+            >
+                <Icons.Delete className="h-8 w-8 p-1 shrink-0"/>
+                <span className="pl-3 text-base w-max">Remove</span>
+            </button>
+        </DialogContentMore>
     </Dialog>
   );
 };

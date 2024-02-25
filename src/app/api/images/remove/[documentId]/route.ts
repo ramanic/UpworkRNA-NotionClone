@@ -55,15 +55,7 @@ export async function PATCH(request: Request, context: Context) {
     await prisma.document.update({ where: { id }, data });
 
     // prettier-ignore
-    const path = `${isIconImage ? CLOUDINARY_ICON_IMAGE_FOLDER : CLOUDINARY_COVER_IMAGE_FOLDER}/${documentId}`;
 
-    const { result } = await deleteImg(path);
-
-    if (result == "not found") {
-      return new Response(`Image with id ${documentId} not founded`, {
-        status: 404,
-      });
-    }
 
     return NextResponse.json(
       { message: "Successfully removed image" },

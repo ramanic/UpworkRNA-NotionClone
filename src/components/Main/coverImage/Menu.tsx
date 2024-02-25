@@ -24,40 +24,40 @@ const Menu: React.FC<MenuProps> = ({
 }) => {
   return (
     <div className="absolute bottom-2 right-24 hidden md:flex opacity-0 group-hover:opacity-100 transition-opacity">
-      <CldUploadWidget
-        uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-        options={{
-          maxFiles: 1,
-          resourceType: "image",
-          folder: CLOUDINARY_COVER_IMAGE_FOLDER,
-          publicId: id,
-          cropping: true,
-          croppingAspectRatio: 3,
-          showSkipCropButton: false,
-          croppingShowDimensions: true,
-          croppingCoordinatesMode: "custom",
-        }}
-        onSuccess={onSuccess}
-        signatureEndpoint={"/api/sign-cloudinary-params"}
-      >
-        {({ open }) => {
-          return (
-            <Button
-              onClick={() => open?.()}
-              type="button"
-              className="cursor-pointer text-primary/70 text-xs transition duration-200 px-2 gap-2 bg-background rounded-r-none h-[26px] disabled:opacity-100"
-              variant={"ghost"}
-              size={"sm"}
-              disabled={isUpdating || isDeleting}
-            >
-              <span className="select-none">Change</span>
-            </Button>
-          );
-        }}
-      </CldUploadWidget>
-      <div>
-        <Separator orientation="vertical" />
-      </div>
+      {/*<CldUploadWidget*/}
+      {/*  uploadPreset={CLOUDINARY_UPLOAD_PRESET}*/}
+      {/*  options={{*/}
+      {/*    maxFiles: 1,*/}
+      {/*    resourceType: "image",*/}
+      {/*    folder: CLOUDINARY_COVER_IMAGE_FOLDER,*/}
+      {/*    publicId: id,*/}
+      {/*    cropping: true,*/}
+      {/*    croppingAspectRatio: 3,*/}
+      {/*    showSkipCropButton: false,*/}
+      {/*    croppingShowDimensions: true,*/}
+      {/*    croppingCoordinatesMode: "custom",*/}
+      {/*  }}*/}
+      {/*  onSuccess={onSuccess}*/}
+      {/*  signatureEndpoint={"/api/sign-cloudinary-params"}*/}
+      {/*>*/}
+      {/*  {({ open }) => {*/}
+      {/*    return (*/}
+      {/*      <Button*/}
+      {/*        onClick={() => open?.()}*/}
+      {/*        type="button"*/}
+      {/*        className="cursor-pointer text-primary/70 text-xs transition duration-200 px-2 gap-2 bg-background rounded-r-none h-[26px] disabled:opacity-100"*/}
+      {/*        variant={"ghost"}*/}
+      {/*        size={"sm"}*/}
+      {/*        disabled={isUpdating || isDeleting}*/}
+      {/*      >*/}
+      {/*        <span className="select-none">Change</span>*/}
+      {/*      </Button>*/}
+      {/*    );*/}
+      {/*  }}*/}
+      {/*</CldUploadWidget>*/}
+      {/*<div>*/}
+      {/*  <Separator orientation="vertical" />*/}
+      {/*</div>*/}
       <Button
         onClick={onDelete}
         type="button"

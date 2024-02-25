@@ -17,22 +17,28 @@ import { useRouter } from "next/navigation";
 interface IconImageBtnProps {
   id: string;
 }
-
+import { useS3Upload } from "next-s3-upload";
 const IconImgUploadBtn: React.FC<IconImageBtnProps> = ({ id }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const router = useRouter();
+  let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
 
-  const onUpload = async (result: any) => {
-    if (result.event == "success") {
+  let handleFileChange = async (file: File) => {
+    let { url } = await uploadToS3(file);
+    console.log('File Upload',url);
+    await onUpload(url)
+  };
+  const onUpload = async (url: string) => {
+    if (url) {
       try {
         setIsLoading(true);
 
         const payload: IconImagePayload = {
           id,
-          iconImageUrl: result.info.secure_url,
+          iconImageUrl: url,
         };
 
         await axios.patch(`/api/images/${id}`, payload);
@@ -64,27 +70,10 @@ const IconImgUploadBtn: React.FC<IconImageBtnProps> = ({ id }) => {
     }
   };
 
+
   return (
-    <CldUploadWidget
-      uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-      options={{
-        maxFiles: 1,
-        resourceType: "image",
-        folder: CLOUDINARY_ICON_IMAGE_FOLDER,
-        publicId: id,
-        cropping: true,
-        croppingAspectRatio: 1,
-        showSkipCropButton: false,
-        croppingShowDimensions: true,
-        croppingCoordinatesMode: "custom",
-      }}
-      onUpload={onUpload}
-      signatureEndpoint={"/api/sign-cloudinary-params"}
-    >
-      {({ open }) => {
-        return (
           <Button
-            onClick={() => open?.()}
+            onClick={() => openFileDialog()}
             type="button"
             className="cursor-pointer text-sm md:!opacity-0 group-hover:!opacity-80 transition-opacity duration-200 px-2 gap-2 "
             variant={"ghost"}
@@ -92,11 +81,9 @@ const IconImgUploadBtn: React.FC<IconImageBtnProps> = ({ id }) => {
             disabled={isLoading}
           >
             <Icons.Camera className="h-4 w-4" />
+            <FileInput onChange={handleFileChange} />
             <span>Add Icon</span>
           </Button>
-        );
-      }}
-    </CldUploadWidget>
   );
 };
 

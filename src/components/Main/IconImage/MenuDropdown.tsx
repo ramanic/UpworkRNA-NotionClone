@@ -32,6 +32,9 @@ const MenuDropdown: React.FC<IconImageProps> = ({
   onDelete,
   isCoverImage,
 }) => {
+    const uploadImage = async () => {
+
+    }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -44,34 +47,13 @@ const MenuDropdown: React.FC<IconImageProps> = ({
         {children}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[125px] mt-2">
-        <CldUploadWidget
-          uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-          options={{
-            maxFiles: 1,
-            resourceType: "image",
-            folder: CLOUDINARY_ICON_IMAGE_FOLDER,
-            publicId: id,
-            cropping: true,
-            croppingAspectRatio: 1,
-            showSkipCropButton: false,
-            croppingShowDimensions: true,
-            croppingCoordinatesMode: "custom",
-          }}
-          onSuccess={onSuccess}
-          signatureEndpoint={"/api/sign-cloudinary-params"}
-        >
-          {({ open }) => {
-            return (
-              <DropdownMenuItem
-                onClick={() => open?.()}
-                className="flex gap-2 cursor-pointer"
-              >
-                <Icons.Update className="h-4 w-4" />
-                <span className="select-none">Change</span>
-              </DropdownMenuItem>
-            );
-          }}
-        </CldUploadWidget>
+          {/*<DropdownMenuItem*/}
+          {/*    onClick={() => uploadImage()}*/}
+          {/*    className="flex gap-2 cursor-pointer"*/}
+          {/*>*/}
+          {/*    <Icons.Update className="h-4 w-4" />*/}
+          {/*    <span className="select-none">Change</span>*/}
+          {/*</DropdownMenuItem>*/}
 
         <DropdownMenuItem
           onClick={onDelete}

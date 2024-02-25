@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import { toast, toastError } from "@/hooks/use-toast";
 import { CoverImagePayload } from "@/lib/validators/route";
+import { useS3Upload } from "next-s3-upload";
 
 interface CoverImageBtnProps {
   id: string;
@@ -23,15 +24,15 @@ const CoverImgUploadBtn: React.FC<CoverImageBtnProps> = ({ id }) => {
   const [_, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-
-  const onUpload = async (result: any) => {
-    if (result.event == "success") {
+  let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
+  const onUpload = async (url:string) => {
+    if (url) {
       try {
         setIsLoading(true);
 
         const payload: CoverImagePayload = {
           id,
-          coverImageUrl: result.info.secure_url,
+          coverImageUrl: url
         };
 
         await axios.patch(`/api/images/${id}`, payload);
@@ -61,41 +62,28 @@ const CoverImgUploadBtn: React.FC<CoverImageBtnProps> = ({ id }) => {
       }
     }
   };
+  let handleFileChange = async (file: File) => {
+    let { url } = await uploadToS3(file);
+    console.log('File Upload',url);
+    await onUpload(url)
+  };
+
 
   return (
-    <CldUploadWidget
-      uploadPreset={CLOUDINARY_UPLOAD_PRESET}
-      options={{
-        maxFiles: 1,
-        resourceType: "image",
-        folder: CLOUDINARY_COVER_IMAGE_FOLDER,
-        publicId: id,
-        cropping: true,
-        croppingAspectRatio: 3,
-        showSkipCropButton: false,
-        croppingShowDimensions: true,
-        croppingCoordinatesMode: "custom",
-      }}
-      onUpload={onUpload}
-      signatureEndpoint="/api/sign-cloudinary-params"
-    >
-      {({ open }) => {
-        return (
           <Button
-            onClick={() => open?.()}
+              onClick={() => openFileDialog()}
             type="button"
             className="cursor-pointer text-sm md:!opacity-0 group-hover:!opacity-80 transition-opacity duration-200 px-2 gap-2"
             variant={"ghost"}
             size={"sm"}
             disabled={isLoading}
           >
+            <FileInput onChange={handleFileChange} />
             <Icons.Image className="h-4 w-4" />
             <span>Add Cover</span>
           </Button>
         );
-      }}
-    </CldUploadWidget>
-  );
+
 };
 
 export default CoverImgUploadBtn;
